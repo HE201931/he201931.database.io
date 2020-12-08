@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="JS/functions.js"></script>
+    <title>Base de données</title>
+    <!--<script src="JS/functions.js"></script>-->
     <script src="JS/objectFunctions.js"></script>
     <link rel="stylesheet" href="CSS/stylesheet.css">
 </head>
-<body onload="">
+<body>
     <main>
         <section>
             <!---->
@@ -20,11 +21,17 @@
                     <label for="pass">Mot de passe :</label>
                     <input type="text" id="pass" name="password" required>
 
-                    <input onclick="registers(document.getElementById('theform'))" type="submit" name = "newUser" value="Enregistrer Utilisateur">
-                    <input onclick="loadUsers(document.getElementById('theform'))" type="submit" name = "alreadyExist" value="Connexion">
+                    <label for="login">Enregistrer(checker si pas encore enregistrer)</label>
+                    <input name="login" id="login" type="checkbox">
+
+                    <input type="submit" value="Connecter/Enregistrer Utilisateur">
+
+                    <p id="loggedUser"></p>
                 </fieldset>
             </form>
         </section>
+
+
         <section>
 
         </section>

@@ -3,6 +3,7 @@ table{
     width: 46%;
     border-spacing: 0;
     border: 1px solid black;
+
 }
 td{
     border: 1px solid black;
@@ -11,4 +12,8 @@ td{
 th{
     border: 1px solid black;
     text-align: center;
+}
+#loggedUser{
+    max-height: 80px;
+    overflow-y: auto;
 }
