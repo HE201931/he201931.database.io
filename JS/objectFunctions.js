@@ -107,10 +107,18 @@ function loadUsers(obj){
         default:
             if(checkIfExist.user.password ==someSimpleHashFunctions(obj.password.value , obj.username.value))
             {
+
                 //console.log (globalConnexionIDs[obj.username.value.toString()]);
                 document.getElementById("loggedUser").innerHTML +=`Hello ${obj.username.value.toString()} !<br>` //"Log: Not Found <br>";
+
                 connectedID= obj.username.value.toString();
-            //  loadDatabases(globalConnexionIDs[obj.username.value.toString()]);
+
+                document.getElementById("connectionData").innerHTML = "";
+
+
+                globalConnexionIDs[connectedID].user.savedSession.forEach(function (x){document.getElementById("connectionData").innerHTML +=`<tr> <td>${x[0]}</td>   <td>${x[1]}</td>   <td>${x[2]}</td>  <td><button  id=${x[1]} onclick="deleteUser(this)">Supprimer</button></td> </tr>`});
+
+                //  loadDatabases(globalConnexionIDs[obj.username.value.toString()]);
             }
             else
             {
