@@ -1,0 +1,26 @@
+table{
+    margin:2%;
+    width: 46%;
+    border-spacing: 0;
+    border: 1px solid black;
+}
+td{
+    border: 1px solid black;
+    text-align: center;
+}
+th{
+    border: 1px solid black;
+    text-align: center;
+}
+#loggedUser{
+    max-height: 80px;
+    overflow-y: auto;
+}
+#connectionData tr:nth-child(odd){
+    background-color: #4C8BF5;
+    color: #fff;
+}
+#connectionData tr:nth-child(even){
+    background-color: #8C8B05;
+    color: #fff;
+}

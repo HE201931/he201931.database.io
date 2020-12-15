@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Base de données</title>
+    <!--<script src="JS/functions.js"></script>-->
+    <script src="JS/objectFunctions.js"></script>
+    <link rel="stylesheet" href="CSS/stylesheet.css">
+</head>
+<body onload="loadDatabases()">
+    <main>
+        <section>
+            <!---->
+            <form id="theform"  action="#" onSubmit="return connections(this)">
+                <fieldset>
+                    <legend>Connexion</legend>
+                    <label for="user">Nom d'utilisateur :</label>
+                    <input type="text" id="user" name="username" required>
+
+                    <label for="pass">Mot de passe :</label>
+                    <input type="password" id="pass" name="password" required>
+
+
+                    <label for="login">Enregistrer(checker si pas encore enregistrer)</label>
+                    <input name="login" id="login" type="checkbox">
+
+                    <input type="submit" value="Connecter/Enregistrer Utilisateur">
+
+                    <p id="loggedUser"></p>
+                </fieldset>
+            </form>
+        </section>
+
+
+        <section>
+
+        </section>
+    </main>
+</body>
+</html>
