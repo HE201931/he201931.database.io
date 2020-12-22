@@ -8,18 +8,20 @@ let connectedID = "";
  * @param stringToHash {string}: une chaine de caractère à hasher
  * @returns {string} : une string "hashée"
  */
-function someSimpleHashFunctions(password, username){
+function someSimpleHashFunctions(password)
+{
     let hashedString= "";
-    for(let i of password){
+    for(let i of password)
+    {
         //console.log(i.charCodeAt(0));
         let calc = String.fromCharCode(i.charCodeAt(0) ^  password.indexOf(i)  ^ password.length - i ^ password.length);
-        let calc2 = String.fromCharCode(calc.charCodeAt(0)  ^ username.length ^ username.length - 1  );
+        let calc2 = String.fromCharCode(calc.charCodeAt(0)  ^ password.length ^ password.length - 1  );
         hashedString += calc + calc2;
     }
     return hashedString;
 }
-function loadDatabases(){
-
+function loadDatabases()
+{
     let Y  ="<form id=\"formUserAdd\"  action=\"#\" onSubmit=\"return addUsers(this)\">\n" +
         "                <fieldset>\n" +
         "                    <legend>Ajouter un utilisateur dans la base de données</legend>\n" +
@@ -36,12 +38,13 @@ function loadDatabases(){
         "\n" +
         "                </fieldset>\n" +
         "            </form>" +
-
+        "            <button onclick='triNom()'>Trier par nom</button>" +
+        "            <button onclick='triMail()'>Trier par mail</button>" +
         "    <table>\n" +
         "            <thead>\n" +
         "            <th>Addresse Mail</th>\n" +
         "            <th>Nom d'utilisateur</th>\n" +
-        "            <th>Mot de Passe</th>\n" +
+        "            <th>Mot de Passe (hashé)</th>\n" +
         "            </thead>\n" +
         "\n" +
         "            <tbody id='connectionData'>\n" +
@@ -51,13 +54,13 @@ function loadDatabases(){
         "            </tbody>\n" +
         "        </table>";
 
-
     document.getElementsByTagName("section")[1].innerHTML +=Y;
 
 }
-function connections(obj){
-
-    switch(obj.login.checked){
+function connections(obj)
+{
+    switch(obj.login.checked)
+    {
         case false:
             loadUsers(obj);
             break;
@@ -67,19 +70,17 @@ function connections(obj){
     }
     return false;
 }
-
 /**
  *utility : enregistre un client , son mdp "hashé" et sa future base de données
  * @param obj
  */
-function registers(obj){
-
+function registers(obj)
+{
     let newUser = {user: {username : obj.username.value, password : someSimpleHashFunctions(obj.password.value, obj.username.value), savedSession : [] }};
     let checkIfExist =globalConnexionIDs[obj.username.value.toString()];
-
     console.log(newUser.user.password);
-
-    switch (checkIfExist){
+    switch (checkIfExist)
+    {
         case undefined:
             globalConnexionIDs[obj.user.value] = newUser;
             break;
@@ -95,27 +96,21 @@ function registers(obj){
  * utility : charge un client et sa base de données
  * @param obj
  */
-function loadUsers(obj){
-
+function loadUsers(obj)
+{
     let checkIfExist =globalConnexionIDs[obj.username.value.toString()];
-
-    switch (checkIfExist){
-
+    switch (checkIfExist)
+    {
         case undefined:
             document.getElementById("loggedUser").innerHTML +="Log: Not Found <br>";
             break;
         default:
             if(checkIfExist.user.password ==someSimpleHashFunctions(obj.password.value , obj.username.value))
             {
-
                 //console.log (globalConnexionIDs[obj.username.value.toString()]);
                 document.getElementById("loggedUser").innerHTML +=`Hello ${obj.username.value.toString()} !<br>` //"Log: Not Found <br>";
-
                 connectedID= obj.username.value.toString();
-
                 document.getElementById("connectionData").innerHTML = "";
-
-
                 globalConnexionIDs[connectedID].user.savedSession.forEach(function (x){document.getElementById("connectionData").innerHTML +=`<tr> <td>${x[0]}</td>   <td>${x[1]}</td>   <td>${x[2]}</td>  <td><button  id=${x[1]} onclick="deleteUser(this)">Supprimer</button></td> </tr>`});
 
                 //  loadDatabases(globalConnexionIDs[obj.username.value.toString()]);
@@ -124,59 +119,72 @@ function loadUsers(obj){
             {
                 console.log("Wrong Password");
             }
-
     }
 }
-
 /**
- * Utility : ajoute un utilisateur dans la base de données d'un client
+ * Utility : ajoute un utilisateur dans la base de données du client connecté
  * @param obj
  * @returns {boolean}
  */
-function addUsers(obj){
-   // obj.connectionData.innerHTML += "<tr>Test</tr><tr>sqdqsdqs</tr>"
-    let itemToAdd =  globalConnexionIDs[connectedID].user.savedSession.find(function (x){return x[1] == obj.user2.value;});
-
-    switch (itemToAdd){
+function addUsers(obj)
+{
+    let itemToAdd =  globalConnexionIDs[connectedID].user.savedSession.find(function (x){return x[1] == obj.user2.value || x[0] == obj.email.value ;});
+    switch (itemToAdd)
+    {
         case undefined:
-            globalConnexionIDs[connectedID].user.savedSession.push([obj.email.value ,obj.user2.value , obj.pass2.value]);
-
-
-            document.getElementById("connectionData").innerHTML +=`<tr> <td>${obj.email.value}</td>   <td>${obj.user2.value}</td>   <td>${obj.pass2.value}</td>  <td><button  id=${obj.user2.value} onclick="deleteUser(this)">Supprimer</button></td> </tr>`
-
+            globalConnexionIDs[connectedID].user.savedSession.push([obj.email.value ,obj.user2.value , someSimpleHashFunctions(obj.pass2.value)]);
+            document.getElementById("connectionData").innerHTML +=`<tr> <td>${obj.email.value}</td>   <td>${obj.user2.value}</td>   <td>${someSimpleHashFunctions(obj.pass2.value)}</td>  <td><button  id=${obj.user2.value} onclick="deleteUser(this)">Supprimer</button></td> </tr>`
         default:
-
             console.log("Alreadyexiotsdd");
     }
-
-
     return false;
-
 }
-
 /**
- * Utility : supprime un utilisateur dans la base de données d'un client
+ * Utility : supprime un utilisateur dans la base de données du client connecté
  * @param obj
  */
-function deleteUser(obj){
-
+function deleteUser(obj)
+{
    let itemToDelete =  globalConnexionIDs[connectedID].user.savedSession.find(function (x){return x[1] == obj.id.toString();});
-
-   switch (itemToDelete){
-
+   switch (itemToDelete)
+   {
        case undefined:
-           console.log("dfu cc");
-
+           console.log("Not found !");
        default:
-
            globalConnexionIDs[connectedID].user.savedSession.splice(itemToDelete.index,1);
-
    }
 
    document.getElementById("connectionData").innerHTML = "";
    globalConnexionIDs[connectedID].user.savedSession.forEach(function (x){document.getElementById("connectionData").innerHTML +=`<tr> <td>${x[0]}</td>   <td>${x[1]}</td>   <td>${x[2]}</td>  <td><button  id=${x[1]} onclick="deleteUser(this)">Supprimer</button></td> </tr>`});
-
 }
+function triNom()
+{
+    document.getElementById("connectionData").innerHTML = "";
+    globalConnexionIDs[connectedID].user.savedSession.sort(function(a,b){
+        //Pas de return 0 puisque les noms ne peuvent jamais être les mêmes dans ce cas-ci
+        if(a[1] < b[1])
+        {
+            return -1;
+        }
+        if(a[1] > b[1])
+        {
+            return 1;
+        }
+    }).forEach(function (x){document.getElementById("connectionData").innerHTML +=`<tr> <td>${x[0]}</td>   <td>${x[1]}</td>   <td>${x[2]}</td>  <td><button  id=${x[1]} onclick="deleteUser(this)">Supprimer</button></td> </tr>`});
+}
+function triMail()
+{
+    document.getElementById("connectionData").innerHTML = "";
+    globalConnexionIDs[connectedID].user.savedSession.sort(function(a,b){
+        //Pas de return 0 puisque les mails ne peuvent jamais être les mêmes dans ce cas-ci
+        if(a[0] < b[0])
+        {
+            return -1;
+        }
 
-
-
+        if(a[0] > b[0])
+        {
+            return 1;
+        }
+    }).forEach(function (x){document.getElementById("connectionData").innerHTML +=`<tr> <td>${x[0]}</td>   <td>${x[1]}</td>   <td>${x[2]}</td>  <td><button  id=${x[1]} onclick="deleteUser(this)">Supprimer</button></td> </tr>`});
+}

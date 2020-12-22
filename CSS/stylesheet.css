@@ -17,10 +17,13 @@ th{
     overflow-y: auto;
 }
 #connectionData tr:nth-child(odd){
-    background-color: #4C8BF5;
-    color: #fff;
+    background-color: #c4c4c4;
+    color: black;
 }
 #connectionData tr:nth-child(even){
-    background-color: #8C8B05;
-    color: #fff;
+    background-color: #dedede;
+    color: black;
+}
+#formUserAdd{
+    margin: 0 0 15px 0;
 }
