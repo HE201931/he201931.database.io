@@ -1,0 +1,29 @@
+table{
+    margin:2%;
+    width: 46%;
+    border-spacing: 0;
+    border: 1px solid black;
+}
+td{
+    border: 1px solid black;
+    text-align: center;
+}
+th{
+    border: 1px solid black;
+    text-align: center;
+}
+#loggedUser{
+    max-height: 80px;
+    overflow-y: auto;
+}
+#connectionData tr:nth-child(odd){
+    background-color: #c4c4c4;
+    color: black;
+}
+#connectionData tr:nth-child(even){
+    background-color: #dedede;
+    color: black;
+}
+#formUserAdd{
+    margin: 0 0 15px 0;
+}
